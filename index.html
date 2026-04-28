@@ -12,7 +12,2396 @@
 
     :root {<!DOCTYPE html>
 <html lang="es">
+<head><!DOCTYPE html>
+<html lang="es">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IntelAsist Salud — Telemedicina Inteligente · Panamá</title>
+  <style>
+    /* =============================================
+       RESET & BASE
+    ============================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0b1929;
+      --bg2:       #0f2236;
+      --bg3:       #132a42;
+      --cyan:      #00c2d4;
+      --cyan-dim:  #007f8c;
+      --white:     #f0f6fc;
+      --muted:     #7a9ab5;
+      --card-bg:   #122033;
+      --border:    rgba(0,194,212,0.18);
+      --radius:    12px;
+      --font:      'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: var(--font);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--cyan); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* =============================================
+       NAV
+    ============================================= */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(11,25,41,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+
+    .nav-logo-img {
+      height: 26px;
+      width: auto;
+      display: block;
+    }
+
+    .nav-logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .nav-tag {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      color: var(--cyan);
+      text-transform: uppercase;
+      padding-left: 0.6rem;
+      border-left: 1px solid var(--border);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0.7rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-size: 0.74rem;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+    .nav-links a:hover { color: var(--cyan); text-decoration: none; }
+
+    .nav-cta {
+      background: var(--cyan);
+      color: #0b1929 !important;
+      padding: 0.35rem 0.85rem;
+      border-radius: 6px;
+      font-weight: 700 !important;
+    }
+
+    /* Hamburger */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      cursor: pointer;
+      padding: 6px;
+      z-index: 200;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile menu */
+    .nav-mobile {
+      display: none;
+      position: fixed;
+      top: 60px;
+      left: 0; right: 0;
+      background: rgba(9,22,38,0.98);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      z-index: 99;
+      flex-direction: column;
+      padding: 0.5rem 0 1rem;
+    }
+    .nav-mobile.open { display: flex; }
+    .nav-mobile a {
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 0.8rem 1.5rem;
+      border-bottom: 1px solid rgba(0,194,212,0.07);
+      display: block;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-mobile a:hover { color: var(--cyan); background: rgba(0,194,212,0.05); text-decoration: none; }
+    .nav-mobile .nav-cta {
+      margin: 0.8rem 1.5rem 0;
+      border-radius: 8px;
+      text-align: center;
+      padding: 0.65rem 1rem;
+      border-bottom: none;
+    }
+
+    @media (max-width: 1100px) {
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+    }
+    @media (max-width: 600px) {
+      .nav-tag { display: none; }
+    }
+
+    /* =============================================
+       SECTIONS WRAPPER
+    ============================================= */
+    section { padding: 5rem 1.5rem; }
+    .container { max-width: 1080px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 0.6rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--white);
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
+    }
+
+    .section-sub {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 620px;
+      line-height: 1.6;
+    }
+
+    /* =============================================
+       HERO
+    ============================================= */
+    #hero {
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+      background:
+        radial-gradient(ellipse at 80% 30%, rgba(0,194,212,0.10) 0%, transparent 60%),
+        radial-gradient(ellipse at 15% 85%, rgba(0,100,140,0.10) 0%, transparent 55%),
+        var(--bg);
+      padding: 4rem 1.5rem;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero-inner {
+      max-width: 1180px;
+      width: 100%;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.05fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(0,194,212,0.12);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.8rem;
+      border-radius: 99px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--cyan);
+      letter-spacing: 0.06em;
+      margin-bottom: 1.2rem;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--cyan);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.4); }
+    }
+
+    .hero-title {
+      font-size: clamp(2.2rem, 5.5vw, 3.5rem);
+      font-weight: 900;
+      line-height: 1.06;
+      letter-spacing: -0.025em;
+      color: var(--white);
+      margin-bottom: 1.2rem;
+    }
+
+    .hero-title em {
+      font-style: normal;
+      color: var(--cyan);
+    }
+
+    .hero-desc {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 520px;
+      margin-bottom: 2rem;
+      line-height: 1.65;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .btn-primary {
+      background: var(--cyan);
+      color: #0b1929;
+      font-weight: 700;
+      padding: 0.8rem 1.6rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: opacity 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); text-decoration: none; }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      font-weight: 600;
+      padding: 0.8rem 1.6rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.2);
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: border-color 0.2s, color 0.2s;
+      display: inline-block;
+    }
+    .btn-outline:hover { border-color: var(--cyan); color: var(--cyan); text-decoration: none; }
+
+    .hero-trust {
+      display: flex;
+      gap: 1.8rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-trust-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .hero-trust-num {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--cyan);
+      line-height: 1;
+    }
+
+    .hero-trust-lbl {
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .hero-client-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      padding: 0.4rem 0.9rem 0.4rem 0.5rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .hero-client-badge-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .hero-client-logo-wrap {
+      background: #fff;
+      border-radius: 6px;
+      padding: 3px 8px;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-client-logo-wrap img {
+      height: 22px;
+      width: auto;
+      display: block;
+    }
+
+    .hero-visual {
+      position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-mockup {
+      width: 100%;
+      max-width: 620px;
+      height: auto;
+      filter: drop-shadow(0 30px 60px rgba(0,0,0,0.5));
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .hero-visual::before {
+      content: '';
+      position: absolute;
+      width: 80%;
+      height: 80%;
+      background: radial-gradient(ellipse at center, rgba(0,194,212,0.18) 0%, transparent 60%);
+      filter: blur(40px);
+      z-index: 0;
+    }
+
+    .hero-visual img { position: relative; z-index: 1; }
+
+    @media (max-width: 880px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero-visual { order: -1; }
+      .hero-mockup { max-width: 460px; }
+    }
+
+    /* =============================================
+       HOW IT WORKS — 3 STEP CIRCLES
+    ============================================= */
+    #que-es { background: var(--bg2); }
+
+    .steps3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.6rem;
+      margin-top: 3rem;
+      position: relative;
+    }
+
+    .steps3::before {
+      content: '';
+      position: absolute;
+      top: 36px;
+      left: 16.6%;
+      right: 16.6%;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--cyan-dim), var(--cyan), var(--cyan-dim), transparent);
+      z-index: 0;
+    }
+
+    .step3-item {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem 1.4rem 1.6rem;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      transition: border-color 0.25s, transform 0.2s;
+    }
+    .step3-item:hover { border-color: var(--cyan); transform: translateY(-3px); }
+
+    .step3-num {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan) 0%, var(--cyan-dim) 100%);
+      color: #0b1929;
+      font-size: 1.3rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: -3rem auto 1rem;
+      box-shadow: 0 6px 18px rgba(0,194,212,0.35);
+      border: 4px solid var(--bg2);
+    }
+
+    .step3-icon {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .step3-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: 0.02em;
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+
+    .step3-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    @media (max-width: 720px) {
+      .steps3 { grid-template-columns: 1fr; gap: 2.5rem; }
+      .steps3::before { display: none; }
+    }
+
+    /* =============================================
+       BENEFICIOS
+    ============================================= */
+    #beneficios { background: var(--bg); }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.2rem;
+      margin-top: 2.5rem;
+    }
+
+    .ben-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.6rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      transition: border-color 0.25s, transform 0.2s;
+    }
+    .ben-card:hover { border-color: var(--cyan); transform: translateY(-2px); }
+
+    .ben-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: rgba(0,194,212,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .ben-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.4rem;
+    }
+
+    .ben-card p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    /* =============================================
+       ALCANCE MEDICO — CONDITIONS GRID
+    ============================================= */
+    #alcance { background: var(--bg2); }
+
+    .alcance-layout {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 3rem;
+      margin-top: 2.5rem;
+      align-items: start;
+    }
+
+    .conditions-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.9rem;
+    }
+
+    .cond-tile {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.2rem 0.8rem;
+      text-align: center;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .cond-tile:hover {
+      border-color: var(--cyan);
+      background: rgba(0,194,212,0.06);
+    }
+
+    .cond-tile-icon {
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .cond-tile-name {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .alcance-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .info-block {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.4rem;
+    }
+
+    .info-block.warn {
+      border-color: rgba(255,180,80,0.3);
+      background: rgba(255,180,80,0.04);
+    }
+
+    .info-block-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 0.5rem;
+    }
+
+    .info-block.warn .info-block-label { color: #ffb858; }
+
+    .info-block h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+
+    .info-block p {
+      font-size: 0.86rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 880px) {
+      .alcance-layout { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    @media (max-width: 480px) {
+      .conditions-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* =============================================
+       CONFIANZA + DEVICES MOCKUP
+    ============================================= */
+    #confianza { background: var(--bg); }
+
+    .confianza-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 3rem;
+      align-items: center;
+      margin-top: 2.5rem;
+    }
+
+    .confianza-mockup {
+      width: 100%;
+      max-width: 560px;
+      height: auto;
+      filter: drop-shadow(0 25px 50px rgba(0,0,0,0.5));
+      margin: 0 auto;
+      display: block;
+    }
+
+    .conf-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+
+    .conf-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .conf-bullet {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: rgba(0,194,212,0.12);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.05rem;
+      flex-shrink: 0;
+    }
+
+    .conf-item h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.25rem;
+    }
+
+    .conf-item p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    @media (max-width: 880px) {
+      .confianza-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+    }
+
+    /* =============================================
+       PROPUESTA ECONÓMICA
+    ============================================= */
+    #propuesta { background: var(--bg2); }
+
+    .propuesta-meta {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .propuesta-meta-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(0,194,212,0.08);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 0.4rem 0.95rem;
+      font-size: 0.82rem;
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    .propuesta-meta-chip strong { color: var(--cyan); font-weight: 700; }
+
+    .tiers-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 1.6rem;
+      margin-top: 2.8rem;
+    }
+
+    @media (max-width: 880px) {
+      .tiers-wrap { grid-template-columns: 1fr; }
+      .tier-card.featured::before { display: none; }
+    }
+
+    .tier-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.25s, transform 0.2s;
+    }
+    .tier-card:hover { border-color: var(--cyan); transform: translateY(-3px); }
+
+    .tier-card.featured {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 1px var(--cyan), 0 20px 50px rgba(0,194,212,0.10);
+    }
+
+    .tier-card.featured::before {
+      content: 'RECOMENDADO';
+      position: absolute;
+      top: 1rem; right: -2.2rem;
+      background: var(--cyan);
+      color: #0b1929;
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      padding: 0.3rem 2.6rem;
+      transform: rotate(35deg);
+    }
+
+    .tier-card { position: relative; }
+
+    .tier-header {
+      padding: 1.6rem 1.6rem 1.2rem;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(135deg, rgba(0,194,212,0.05) 0%, transparent 100%);
+    }
+
+    .tier-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 0.4rem;
+    }
+
+    .tier-name {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.01em;
+      line-height: 1.15;
+    }
+
+    .tier-services {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tier-row-head {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 1.2rem;
+      padding: 0.7rem 1.6rem;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: rgba(0,0,0,0.18);
+    }
+
+    .tier-row-head .col-amt { width: 80px; text-align: right; }
+    .tier-row-head .col-evt { width: 80px; text-align: right; }
+
+    .tier-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 1.2rem;
+      padding: 0.95rem 1.6rem;
+      align-items: center;
+      border-top: 1px solid rgba(0,194,212,0.08);
+    }
+
+    .tier-row:first-of-type { border-top: none; }
+
+    .tier-svc {
+      font-size: 0.9rem;
+      color: var(--white);
+      font-weight: 500;
+      line-height: 1.35;
+    }
+
+    .tier-val {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--cyan);
+      width: 80px;
+      text-align: right;
+      letter-spacing: 0.02em;
+    }
+
+    .tier-val.muted {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .tier-val .num {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--white);
+    }
+
+    .tier-price {
+      background: linear-gradient(135deg, rgba(0,194,212,0.14) 0%, rgba(0,194,212,0.04) 100%);
+      padding: 1.4rem 1.6rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .tier-price-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.02em;
+      max-width: 60%;
+    }
+
+    .tier-price-value {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--cyan);
+      letter-spacing: -0.02em;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .tier-price-value .currency {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-right: 0.2rem;
+      opacity: 0.85;
+    }
+
+    .propuesta-note {
+      margin-top: 1.8rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-align: center;
+      font-style: italic;
+    }
+
+    @media (max-width: 480px) {
+      .tier-row, .tier-row-head { padding-left: 1rem; padding-right: 1rem; gap: 0.6rem; }
+      .tier-val, .tier-row-head .col-amt, .tier-row-head .col-evt { width: 60px; font-size: 0.72rem; }
+      .tier-svc { font-size: 0.82rem; }
+      .tier-price-value { font-size: 1.5rem; }
+    }
+
+    /* =============================================
+       CONTACT / CTA
+    ============================================= */
+    #contacto {
+      background: radial-gradient(ellipse at 50% 0%, rgba(0,194,212,0.12) 0%, transparent 70%), var(--bg);
+      text-align: center;
+    }
+
+    .li-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      max-width: 480px;
+      margin: 2.5rem auto 0;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.35);
+      text-align: left;
+    }
+
+    .li-banner {
+      height: 90px;
+      background:
+        linear-gradient(120deg, #001a2e 0%, #002a45 60%, #003358 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .li-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 80% 50%, rgba(0,194,212,0.18) 0%, transparent 60%);
+    }
+
+    .li-banner-logo-img {
+      position: absolute;
+      right: 1.2rem;
+      bottom: 0.7rem;
+      height: 22px;
+      width: auto;
+      opacity: 0.85;
+      z-index: 1;
+    }
+
+    .li-avatar-wrap {
+      position: relative;
+      margin: -44px 0 0 1.4rem;
+      width: 88px;
+      height: 88px;
+    }
+
+    .li-avatar {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--card-bg);
+      display: block;
+    }
+
+    .li-online {
+      position: absolute;
+      bottom: 4px;
+      right: 4px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #2e7d32;
+      border: 2px solid var(--card-bg);
+    }
+
+    .li-body {
+      padding: 0.6rem 1.4rem 1.4rem;
+    }
+
+    .li-name {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--white);
+      margin-top: 0.4rem;
+      text-align: center;
+    }
+
+    .li-headline {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 0.15rem;
+      text-align: center;
+    }
+
+    .li-company {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 0.5rem;
+      font-size: 0.78rem;
+      color: var(--cyan);
+      font-weight: 600;
+      justify-content: center;
+    }
+
+    .li-location {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.25rem;
+      text-align: center;
+    }
+
+    .li-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 1rem 0;
+    }
+
+    .li-contact-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .li-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .li-contact-item a { color: var(--cyan); }
+
+    .li-contact-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: rgba(0,194,212,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .li-actions {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.2rem;
+    }
+
+    .li-btn-primary {
+      flex: 1;
+      background: var(--cyan);
+      color: #0b1929;
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      text-align: center;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .li-btn-primary:hover { opacity: 0.85; text-decoration: none; }
+
+    .li-btn-secondary {
+      flex: 1;
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      text-align: center;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .li-btn-secondary:hover { background: rgba(0,194,212,0.1); text-decoration: none; }
+
+    /* =============================================
+       FOOTER
+    ============================================= */
+    footer {
+      background: #070f1a;
+      border-top: 1px solid var(--border);
+      padding: 1.5rem;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    footer strong { color: var(--white); }
+
+    /* =============================================
+       FADE-IN ANIMATION
+    ============================================= */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =============================================
+       PASSWORD GATE
+    ============================================= */
+    #gate {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    #gate-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      max-width: 480px;
+      width: 100%;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+
+    #gate-logos {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2rem;
+    }
+
+    #gate-logo {
+      height: 32px;
+      width: auto;
+      display: block;
+    }
+
+    .gate-logo-arrow {
+      color: var(--cyan-dim);
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .gate-logo-client-wrap {
+      background: #fff;
+      border-radius: 8px;
+      padding: 4px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #gate-logo-client {
+      height: 28px;
+      width: auto;
+      display: block;
+    }
+
+    #gate h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--white);
+      text-align: center;
+      line-height: 1.4;
+      margin-bottom: 0.3rem;
+    }
+
+    #gate p.gate-sub {
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 0;
+    }
+
+    #gate-input-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    #gate-input {
+      width: 100%;
+      background: #0b1929;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: var(--white);
+      font-size: 1rem;
+      font-family: var(--font);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    #gate-input:focus { border-color: var(--cyan); }
+    #gate-input.error { border-color: #e53935; }
+
+    #gate-error {
+      font-size: 0.78rem;
+      color: #e57373;
+      display: none;
+    }
+
+    #terms-toggle {
+      font-size: 0.78rem;
+      color: var(--cyan);
+      cursor: pointer;
+      text-align: center;
+      user-select: none;
+    }
+    #terms-toggle:hover { text-decoration: underline; }
+
+    #terms-box {
+      display: none;
+      background: #0b1929;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      font-size: 0.72rem;
+      color: var(--muted);
+      line-height: 1.6;
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 0.5rem;
+    }
+
+    #terms-box h4 {
+      color: var(--white);
+      font-size: 0.78rem;
+      margin-bottom: 0.5rem;
+    }
+
+    #terms-box ol {
+      padding-left: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .gate-accept-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    .gate-accept-row input[type="checkbox"] {
+      margin-top: 2px;
+      accent-color: var(--cyan);
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    #gate-btn {
+      width: 100%;
+      background: var(--cyan);
+      color: #0b1929;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: var(--font);
+      transition: opacity 0.2s;
+    }
+    #gate-btn:hover { opacity: 0.85; }
+    #gate-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    body.gate-open { overflow: hidden; }
+
+    /* =============================================
+       EXCLUSIVIDAD
+    ============================================= */
+    #exclusividad { background: var(--bg2); }
+
+    .excl-statement {
+      max-width: 760px;
+      margin: 1.4rem 0 3rem;
+      font-size: 1.1rem;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .excl-statement em {
+      font-style: normal;
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    .excl-pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.4rem;
+    }
+
+    .excl-pillar {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem 1.6rem;
+      transition: border-color 0.25s, transform 0.2s;
+    }
+    .excl-pillar:hover { border-color: var(--cyan); transform: translateY(-3px); }
+
+    .excl-pillar-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .excl-pillar h3 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.01em;
+    }
+
+    .excl-pillar p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 720px) {
+      .excl-pillars { grid-template-columns: 1fr; }
+    }
+
+    /* =============================================
+       POR QUÉ INTELASIST
+    ============================================= */
+    #por-que { background: var(--bg2); }
+
+    .porq-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+      margin-top: 2.5rem;
+    }
+
+    .porq-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.8rem 1.4rem;
+      transition: border-color 0.25s, transform 0.2s;
+    }
+    .porq-card:hover { border-color: var(--cyan); transform: translateY(-3px); }
+
+    .porq-icon {
+      font-size: 1.8rem;
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+
+    .porq-card h3 {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.4rem;
+    }
+
+    .porq-card p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 720px) {
+      .porq-grid { grid-template-columns: 1fr; }
+    }
+
+    /* =============================================
+       WHATSAPP PROMO
+    ============================================= */
+    #wa-promo { background: var(--bg2); }
+
+    .wa-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      margin-top: 3rem;
+    }
+
+    .wa-points {
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+
+    .wa-point {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .wa-point-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: rgba(37,211,102,0.12);
+      border: 1px solid rgba(37,211,102,0.22);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .wa-point h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.25rem;
+    }
+
+    .wa-point p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .wa-phone-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .wa-phone {
+      width: 286px;
+      background: #1a1a1a;
+      border-radius: 40px;
+      padding: 14px;
+      box-shadow:
+        0 35px 90px rgba(0,0,0,0.65),
+        0 0 0 1px rgba(255,255,255,0.07),
+        inset 0 0 0 1px rgba(255,255,255,0.04);
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .wa-screen {
+      border-radius: 28px;
+      overflow: hidden;
+    }
+
+    .wa-status-bar {
+      background: #075E54;
+      padding: 6px 16px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.6rem;
+      color: #fff;
+      font-family: system-ui, sans-serif;
+      font-weight: 600;
+    }
+
+    .wa-header {
+      background: #075E54;
+      padding: 8px 14px 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .wa-back { color: #fff; font-size: 1rem; }
+
+    .wa-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+
+    .wa-header-info { flex: 1; }
+
+    .wa-header-name {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #fff;
+      font-family: system-ui, sans-serif;
+      line-height: 1.2;
+    }
+
+    .wa-header-status {
+      font-size: 0.63rem;
+      color: rgba(255,255,255,0.65);
+      font-family: system-ui, sans-serif;
+    }
+
+    .wa-header-icons { color: rgba(255,255,255,0.85); font-size: 0.85rem; display: flex; gap: 10px; }
+
+    .wa-chat {
+      background: #ECE5DD;
+      padding: 10px 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .wa-date-chip {
+      text-align: center;
+      font-size: 0.6rem;
+      color: #555;
+      background: rgba(255,255,255,0.72);
+      border-radius: 8px;
+      padding: 3px 10px;
+      width: fit-content;
+      margin: 0 auto 4px;
+      font-family: system-ui, sans-serif;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .wa-bubble {
+      max-width: 90%;
+      background: #fff;
+      border-radius: 0 8px 8px 8px;
+      padding: 7px 9px 4px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.13);
+      align-self: flex-start;
+      position: relative;
+    }
+
+    .wa-bubble::before {
+      content: '';
+      position: absolute;
+      left: -7px;
+      top: 0;
+      border-style: solid;
+      border-width: 0 7px 8px 0;
+      border-color: transparent #fff transparent transparent;
+    }
+
+    .wa-bubble-sender {
+      font-size: 0.63rem;
+      font-weight: 700;
+      color: #128C7E;
+      margin-bottom: 3px;
+      font-family: system-ui, sans-serif;
+    }
+
+    .wa-bubble-text {
+      font-size: 0.73rem;
+      color: #303030;
+      line-height: 1.5;
+      font-family: system-ui, sans-serif;
+      white-space: pre-wrap;
+    }
+
+    .wa-bubble-text b { font-weight: 700; color: #111; }
+
+    .wa-link-card {
+      margin: 6px -9px -4px;
+      background: #f2f2f2;
+      border-top: 3px solid #25D366;
+      border-radius: 0 0 6px 6px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .wa-link-thumb {
+      background: linear-gradient(135deg, #00b09b, #96c93d);
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+    }
+
+    .wa-link-body { padding: 6px 9px 7px; }
+
+    .wa-link-domain {
+      font-size: 0.59rem;
+      color: #128C7E;
+      font-weight: 600;
+      font-family: system-ui, sans-serif;
+      margin-bottom: 2px;
+    }
+
+    .wa-link-title {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #222;
+      line-height: 1.3;
+      font-family: system-ui, sans-serif;
+    }
+
+    .wa-bubble-meta {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 3px;
+      margin-top: 5px;
+    }
+
+    .wa-time {
+      font-size: 0.59rem;
+      color: #999;
+      font-family: system-ui, sans-serif;
+    }
+
+    .wa-ticks { color: #53bdeb; font-size: 0.72rem; letter-spacing: -2px; }
+
+    .wa-bottom-bar {
+      background: #F0F0F0;
+      padding: 7px 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .wa-emoji-btn, .wa-attach-btn {
+      color: #8696a0;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .wa-input-fake {
+      flex: 1;
+      background: #fff;
+      border-radius: 22px;
+      padding: 7px 14px;
+      font-size: 0.7rem;
+      color: #aaa;
+      font-family: system-ui, sans-serif;
+    }
+
+    .wa-mic-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #25D366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 900px) {
+      .wa-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+      .wa-phone-wrap { order: -1; }
+    }
+
+    /* =============================================
+       MOBILE
+    ============================================= */
+    @media (max-width: 768px) {
+      section { padding: 3.5rem 1rem; }
+      nav { padding: 0 1rem; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .conf-list { gap: 1.2rem; }
+      .hero-trust { gap: 1.2rem; }
+      .alcance-layout { grid-template-columns: 1fr; gap: 2rem; }
+      .confianza-layout { grid-template-columns: 1fr; gap: 2rem; }
+      .tiers-wrap { grid-template-columns: 1fr; }
+      .tier-card.featured::before { display: none; }
+      .excl-pillars { grid-template-columns: 1fr; gap: 1rem; }
+      .porq-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .wa-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+      .wa-phone-wrap { order: -1; }
+      .steps3 { grid-template-columns: 1fr; gap: 2rem; }
+      .steps3::before { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      section { padding: 2.8rem 1rem; }
+      #gate-box { padding: 1.8rem 1.2rem; gap: 1rem; }
+      #gate-logo { height: 24px; }
+      .section-title { font-size: 1.4rem; }
+      .hero-title { font-size: 2rem; }
+      .hero-desc { font-size: 0.95rem; }
+      .hero-actions { flex-direction: column; }
+      .hero-actions .btn-primary,
+      .hero-actions .btn-outline { text-align: center; }
+      .porq-grid { grid-template-columns: 1fr; }
+      .tier-row, .tier-row-head { padding-left: 1rem; padding-right: 1rem; gap: 0.6rem; }
+      .tier-val, .tier-row-head .col-amt, .tier-row-head .col-evt { width: 60px; font-size: 0.72rem; }
+      .tier-svc { font-size: 0.82rem; }
+      .tier-price-value { font-size: 1.5rem; }
+      .wa-phone { width: 260px; }
+      .conditions-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero-client-badge { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body class="gate-open">
+
+  <!-- ============ PASSWORD GATE ============ -->
+  <div id="gate">
+    <div id="gate-box">
+      <div id="gate-logos">
+        <img src="Logo Intel Asist - blanco gris.png" alt="IntelAsist" id="gate-logo" />
+        <span class="gate-logo-arrow">→</span>
+        <div class="gate-logo-client-wrap">
+          <img src="Logo UniVivir.png" alt="UniVivir Seguros" id="gate-logo-client" />
+        </div>
+      </div>
+      <div>
+        <h2>Material Informativo Confidencial</h2>
+        <p class="gate-sub">Ingrese la contraseña para acceder al contenido</p>
+      </div>
+      <div id="gate-input-wrap">
+        <input type="password" id="gate-input" placeholder="Contraseña de acceso" autocomplete="off" />
+        <span id="gate-error">Contraseña incorrecta. Intente de nuevo.</span>
+      </div>
+      <div>
+        <div id="terms-toggle" onclick="toggleTerms()">&#9654; Ver términos de confidencialidad</div>
+        <div id="terms-box">
+          <h4>Términos de Confidencialidad</h4>
+          <ol>
+            <li>Este documento contiene información exclusiva y confidencial de Intel Asistencia, S.A. y está dirigido únicamente al destinatario autorizado.</li>
+            <li>Queda prohibida la reproducción, distribución o divulgación total o parcial de este contenido sin el consentimiento previo y por escrito de Intel Asistencia, S.A.</li>
+            <li>Al acceder a este material informativo, el receptor acepta mantener la confidencialidad de la información contenida en el mismo.</li>
+            <li>El uso no autorizado de esta información podrá dar lugar a acciones legales conforme a la legislación vigente de la República de Panamá.</li>
+            <li>Si usted ha recibido este acceso por error, le rogamos notificarlo inmediatamente a jtaylor@intelasist.com y abstenerse de utilizar su contenido.</li>
+          </ol>
+        </div>
+      </div>
+      <label class="gate-accept-row">
+        <input type="checkbox" id="gate-accept" />
+        He leído y acepto los términos de confidencialidad de este material.
+      </label>
+      <button id="gate-btn" onclick="checkGate()" disabled>Acceder a la propuesta →</button>
+    </div>
+  </div>
+
+  <!-- ============ NAV ============ -->
+  <nav>
+    <div class="nav-logo-wrap">
+      <img src="Logo Intel Asist - blanco gris.png" alt="IntelAsist" class="nav-logo-img" />
+      <span class="nav-tag">Salud</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#exclusividad">Exclusividad</a></li>
+      <li><a href="#que-es">¿Qué es?</a></li>
+      <li><a href="#beneficios">Beneficios</a></li>
+      <li><a href="#alcance">Alcance Médico</a></li>
+      <li><a href="#confianza">Confianza</a></li>
+      <li><a href="#propuesta">Propuesta</a></li>
+      <li><a href="#wa-promo">Activación</a></li>
+      <li><a href="#por-que">Por qué IntelAsist</a></li>
+      <li><a href="#contacto" class="nav-cta">Contacto</a></li>
+    </ul>
+    <div class="nav-hamburger" id="nav-hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div class="nav-mobile" id="nav-mobile">
+    <a href="#exclusividad" onclick="closeMenu()">Exclusividad</a>
+    <a href="#que-es" onclick="closeMenu()">¿Qué es?</a>
+    <a href="#beneficios" onclick="closeMenu()">Beneficios</a>
+    <a href="#alcance" onclick="closeMenu()">Alcance Médico</a>
+    <a href="#confianza" onclick="closeMenu()">Confianza</a>
+    <a href="#propuesta" onclick="closeMenu()">Propuesta</a>
+    <a href="#wa-promo" onclick="closeMenu()">Activación de Beneficios</a>
+    <a href="#por-que" onclick="closeMenu()">Por qué IntelAsist</a>
+    <a href="#contacto" class="nav-cta" onclick="closeMenu()">Contacto</a>
+  </div>
+
+  <!-- ============ HERO ============ -->
+  <section id="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-client-badge">
+          <span class="hero-client-badge-label">Propuesta para</span>
+          <div class="hero-client-logo-wrap">
+            <img src="Logo UniVivir.png" alt="UniVivir Seguros" />
+          </div>
+        </div>
+        <div class="hero-eyebrow">Telemedicina Inteligente · Panamá · 2026</div>
+        <h1 class="hero-title">
+          La revolución del<br/>
+          <em>cuidado conectado</em>
+        </h1>
+        <p class="hero-desc">
+          Conectamos pacientes y médicos certificados en minutos, desde cualquier dispositivo.
+          Consultas en video, recetas digitales y seguimiento — sin desplazamientos, sin esperas.
+        </p>
+        <div class="hero-actions">
+          <a href="#que-es" class="btn-primary">Cómo funciona</a>
+          <a href="#contacto" class="btn-outline">Contactar equipo</a>
+        </div>
+        <div class="hero-trust">
+          <div class="hero-trust-item">
+            <div class="hero-trust-num">24/7</div>
+            <div class="hero-trust-lbl">Disponibilidad</div>
+          </div>
+          <div class="hero-trust-item">
+            <div class="hero-trust-num">365</div>
+            <div class="hero-trust-lbl">Días al año</div>
+          </div>
+          <div class="hero-trust-item">
+            <div class="hero-trust-num">100%</div>
+            <div class="hero-trust-lbl">Médicos certificados</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <img src="Health - Laptop Phone Mockup.png" alt="Consulta de telemedicina en laptop y móvil" class="hero-mockup" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EXCLUSIVIDAD ============ -->
+  <section id="exclusividad">
+    <div class="container fade-in">
+      <div class="section-label">Propuesta Exclusiva · UniVivir Seguros</div>
+      <h2 class="section-title">Un producto construido<br/>para <em style="color:var(--cyan);font-style:normal;">UniVivir.</em></h2>
+      <p class="excl-statement">
+        Para que un producto de asistencia realmente ayude a una aseguradora a
+        <em>diferenciarse en el mercado</em>, debe construirse con
+        <em>enfoque</em>, <em>exclusividad</em> y <em>acompañamiento estratégico</em>.
+        Esta propuesta está diseñada específicamente para UniVivir Seguros —
+        no es un producto genérico, es una solución a medida.
+      </p>
+
+      <div class="excl-pillars">
+        <div class="excl-pillar">
+          <span class="excl-pillar-icon">🎯</span>
+          <h3>Enfoque</h3>
+          <p>El producto es configurado y operado con foco total en la cartera y necesidades específicas de UniVivir Seguros, no como un servicio de volumen masivo.</p>
+        </div>
+        <div class="excl-pillar">
+          <span class="excl-pillar-icon">🔐</span>
+          <h3>Exclusividad</h3>
+          <p>IntelAsist no ofrecerá este producto a otra aseguradora competidora en el mercado panameño. UniVivir tendrá diferenciación real y sostenida frente a su competencia.</p>
+        </div>
+        <div class="excl-pillar">
+          <span class="excl-pillar-icon">🤝</span>
+          <h3>Acompañamiento Estratégico</h3>
+          <p>Soporte continuo de implementación, seguimiento de uso y evolución conjunta del producto, alineado siempre con los objetivos comerciales de UniVivir.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ¿QUÉ ES? ============ -->
+  <section id="que-es">
+    <div class="container fade-in">
+      <div class="section-label">01 · ¿Qué es?</div>
+      <h2 class="section-title">La telemedicina conecta pacientes<br/>y médicos en cualquier dispositivo.</h2>
+      <p class="section-sub">
+        Es la prestación de servicios de salud a distancia mediante tecnologías digitales.
+        Permite consultas médicas en tiempo real con profesionales certificados — sin
+        desplazamientos físicos, sin esperas innecesarias.
+      </p>
+
+      <div class="steps3">
+        <div class="step3-item">
+          <div class="step3-num">1</div>
+          <div class="step3-icon">📱</div>
+          <div class="step3-title">Accedes</div>
+          <div class="step3-desc">Ingresa a la plataforma desde tu móvil, tablet o computadora — sin instalar nada.</div>
+        </div>
+        <div class="step3-item">
+          <div class="step3-num">2</div>
+          <div class="step3-icon">🩺</div>
+          <div class="step3-title">Conectas</div>
+          <div class="step3-desc">Te asignamos un médico certificado disponible en minutos.</div>
+        </div>
+        <div class="step3-item">
+          <div class="step3-num">3</div>
+          <div class="step3-icon">💊</div>
+          <div class="step3-title">Recibes</div>
+          <div class="step3-desc">Consulta en video, diagnóstico, receta digital y seguimiento — todo en una sesión.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BENEFICIOS ============ -->
+  <section id="beneficios">
+    <div class="container fade-in">
+      <div class="section-label">02 · Beneficios</div>
+      <h2 class="section-title">Una solución diseñada para<br/>responder a las necesidades reales de salud.</h2>
+
+      <div class="grid-2">
+        <div class="ben-card">
+          <div class="ben-icon">⚡</div>
+          <div>
+            <h3>Resuelve dudas médicas inmediatas</h3>
+            <p>Atención profesional disponible cuando la necesitas, sin esperas innecesarias en consultorios.</p>
+          </div>
+        </div>
+        <div class="ben-card">
+          <div class="ben-icon">💻</div>
+          <div>
+            <h3>Conéctate desde cualquier dispositivo</h3>
+            <p>Plataforma accesible desde teléfono móvil, tablet o computadora portátil. Sin descargar aplicaciones.</p>
+          </div>
+        </div>
+        <div class="ben-card">
+          <div class="ben-icon">📍</div>
+          <div>
+            <h3>Accede desde cualquier lugar</h3>
+            <p>Consulta médica desde tu hogar, oficina o donde te encuentres en Panamá — cobertura nacional total.</p>
+          </div>
+        </div>
+        <div class="ben-card">
+          <div class="ben-icon">👨‍⚕️</div>
+          <div>
+            <h3>Médicos experimentados</h3>
+            <p>Equipo de profesionales certificados con amplia trayectoria en atención primaria y orientación clínica.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ALCANCE MÉDICO ============ -->
+  <section id="alcance">
+    <div class="container fade-in">
+      <div class="section-label">03 · Alcance Médico</div>
+      <h2 class="section-title">Condiciones que pueden ser atendidas<br/>a través de telemedicina.</h2>
+      <p class="section-sub">
+        El servicio es ideal para el primer nivel de atención: manejo inicial de síntomas,
+        orientación médica y recetas para padecimientos comunes.
+      </p>
+
+      <div class="alcance-layout">
+        <div class="conditions-grid">
+          <div class="cond-tile"><span class="cond-tile-icon">🤧</span><div class="cond-tile-name">Gripe</div></div>
+          <div class="cond-tile"><span class="cond-tile-icon">🌼</span><div class="cond-tile-name">Alergias</div></div>
+          <div class="cond-tile"><span class="cond-tile-icon">🧴</span><div class="cond-tile-name">Piel</div></div>
+          <div class="cond-tile"><span class="cond-tile-icon">😷</span><div class="cond-tile-name">Tos</div></div>
+          <div class="cond-tile"><span class="cond-tile-icon">👁️</span><div class="cond-tile-name">Ojos</div></div>
+          <div class="cond-tile"><span class="cond-tile-icon">🗣️</span><div class="cond-tile-name">Garganta</div></div>
+          <div class="cond-tile"><span class="cond-tile-icon">🤰</span><div class="cond-tile-name">Embarazo</div></div>
+          <div class="cond-tile"><span class="cond-tile-icon">🤕</span><div class="cond-tile-name">Cabeza</div></div>
+          <div class="cond-tile"><span class="cond-tile-icon">🌡️</span><div class="cond-tile-name">Fiebre</div></div>
+        </div>
+
+        <div class="alcance-info">
+          <div class="info-block">
+            <div class="info-block-label">Importante</div>
+            <h3>¿Qué condiciones pueden atenderse por esta vía?</h3>
+            <p>No todas las enfermedades pueden tratarse por telemedicina. El servicio es ideal para el primer nivel de atención: manejo inicial de síntomas, orientación médica y recetas para padecimientos comunes.</p>
+          </div>
+          <div class="info-block warn">
+            <div class="info-block-label">Casos complejos</div>
+            <h3>Referencia a especialistas</h3>
+            <p>El médico evalúa cada consulta y refiere al paciente al especialista o centro presencial cuando es necesario. Tu salud siempre primero.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONFIANZA ============ -->
+  <section id="confianza">
+    <div class="container fade-in">
+      <div class="section-label">04 · Confianza</div>
+      <h2 class="section-title">Atención profesional, segura<br/>y siempre disponible.</h2>
+
+      <div class="confianza-layout">
+        <div>
+          <img src="Health - Tablet Phone Mockup.png" alt="Consulta médica en tablet y móvil" class="confianza-mockup" />
+        </div>
+        <div class="conf-list">
+          <div class="conf-item">
+            <div class="conf-bullet">👨‍⚕️</div>
+            <div>
+              <h3>Médicos con amplia experiencia</h3>
+              <p>Seleccionamos a los profesionales más capacitados en atención de pacientes.</p>
+            </div>
+          </div>
+          <div class="conf-item">
+            <div class="conf-bullet">🔒</div>
+            <div>
+              <h3>Atención privada y segura</h3>
+              <p>Tu información médica permanece protegida y disponible solo para ti.</p>
+            </div>
+          </div>
+          <div class="conf-item">
+            <div class="conf-bullet">🕐</div>
+            <div>
+              <h3>Disponibilidad 24/7 / 365</h3>
+              <p>Nuestros médicos te atienden las 24 horas, los 365 días del año.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROPUESTA ECONÓMICA ============ -->
+  <section id="propuesta">
+    <div class="container fade-in">
+      <div class="section-label">05 · Propuesta Económica</div>
+      <h2 class="section-title">Dos modalidades.<br/>Costo claro por asegurado.</h2>
+      <p class="section-sub">
+        Elija la cobertura que mejor se ajuste a la cartera de Univivir Seguros — desde
+        telemedicina ilimitada hasta el paquete completo de asistencia en salud.
+      </p>
+
+      <div class="propuesta-meta">
+        <div class="propuesta-meta-chip">Cliente: <strong>Univivir Seguros</strong></div>
+        <div class="propuesta-meta-chip">Cartera estimada: <strong>19,000+ asegurados</strong></div>
+      </div>
+
+      <div class="tiers-wrap">
+
+        <!-- TIER 1 — Telemedicina Ilimitada -->
+        <div class="tier-card">
+          <div class="tier-header">
+            <div class="tier-eyebrow">Modalidad 1</div>
+            <div class="tier-name">Telemedicina<br/>Ilimitada</div>
+          </div>
+          <div class="tier-services">
+            <div class="tier-row-head">
+              <div>Asistencia médica</div>
+              <div class="col-amt">Monto Máx.</div>
+              <div class="col-evt">Eventos / año</div>
+            </div>
+            <div class="tier-row">
+              <div class="tier-svc">Asistencia Telemedicina (Video llamada / Telefónica)</div>
+              <div class="tier-val">sin límite</div>
+              <div class="tier-val">sin límite</div>
+            </div>
+          </div>
+          <div class="tier-price">
+            <div class="tier-price-label">Costo por asegurado mensual</div>
+            <div class="tier-price-value"><span class="currency">B/.</span>0.85</div>
+          </div>
+        </div>
+
+        <!-- TIER 2 — Asistencia Salud Plus -->
+        <div class="tier-card featured">
+          <div class="tier-header">
+            <div class="tier-eyebrow">Modalidad 2</div>
+            <div class="tier-name">Asistencia<br/>Salud Plus</div>
+          </div>
+          <div class="tier-services">
+            <div class="tier-row-head">
+              <div>Asistencia médica</div>
+              <div class="col-amt">Monto Máx.</div>
+              <div class="col-evt">Eventos / año</div>
+            </div>
+            <div class="tier-row">
+              <div class="tier-svc">Asistencia Telemedicina (Video llamada / Telefónica)</div>
+              <div class="tier-val">sin límite</div>
+              <div class="tier-val">sin límite</div>
+            </div>
+            <div class="tier-row">
+              <div class="tier-svc">Traslado Médico Terrestre (Ambulancia)</div>
+              <div class="tier-val">sin límite</div>
+              <div class="tier-val">sin límite</div>
+            </div>
+            <div class="tier-row">
+              <div class="tier-svc">Referencia y Coordinación de Citas Médicas</div>
+              <div class="tier-val">sin límite</div>
+              <div class="tier-val">sin límite</div>
+            </div>
+            <div class="tier-row">
+              <div class="tier-svc">Coordinación de envío de medicamentos a domicilio</div>
+              <div class="tier-val">sin límite</div>
+              <div class="tier-val">sin límite</div>
+            </div>
+            <div class="tier-row">
+              <div class="tier-svc">Envío médico a domicilio (visita médica a domicilio)</div>
+              <div class="tier-val">sin límite</div>
+              <div class="tier-val"><span class="num">4</span></div>
+            </div>
+          </div>
+          <div class="tier-price">
+            <div class="tier-price-label">Costo por asegurado mensual</div>
+            <div class="tier-price-value"><span class="currency">B/.</span>1.24</div>
+          </div>
+        </div>
+
+      </div>
+
+      <p class="propuesta-note">
+        Tarifas válidas para una cartera estimada de 19,000+ asegurados · Precios en Balboas (B/.) más ITBMS aplicable
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ WHATSAPP PROMO ============ -->
+  <section id="wa-promo">
+    <div class="container fade-in">
+      <div class="section-label">06 · Activación de Beneficios</div>
+      <h2 class="section-title">Comunicación proactiva<br/>incluida sin costo adicional.</h2>
+      <p class="section-sub">
+        Con IntelAsist incorporamos la promoción activa del producto para garantizar
+        visibilidad de beneficios a los asegurados de UniVivir — sin ningún costo adicional.
+      </p>
+
+      <div class="wa-layout">
+
+        <div class="wa-points">
+          <div class="wa-point">
+            <div class="wa-point-icon">📣</div>
+            <div>
+              <h3>Notificación proactiva vía WhatsApp</h3>
+              <p>Cada asegurado recibe un mensaje directo presentando sus nuevos beneficios desde el primer día, sin que tenga que buscarlo.</p>
+            </div>
+          </div>
+          <div class="wa-point">
+            <div class="wa-point-icon">🔗</div>
+            <div>
+              <h3>Link directo a beneficios</h3>
+              <p>El mensaje incluye un enlace personalizado para que el asegurado conozca y active sus coberturas en segundos.</p>
+            </div>
+          </div>
+          <div class="wa-point">
+            <div class="wa-point-icon">💬</div>
+            <div>
+              <h3>Canal de atención inmediata</h3>
+              <p>Al responder el chat, el asegurado queda conectado directamente con la línea de asistencia médica de IntelAsist.</p>
+            </div>
+          </div>
+          <div class="wa-point">
+            <div class="wa-point-icon">🎁</div>
+            <div>
+              <h3>Sin costo adicional para UniVivir</h3>
+              <p>La comunicación proactiva forma parte del servicio. IntelAsist garantiza la visibilidad del beneficio desde el primer día de activación.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="wa-phone-wrap">
+          <div class="wa-phone">
+            <div class="wa-screen">
+
+              <!-- Status bar -->
+              <div class="wa-status-bar">
+                <span>9:41</span>
+                <span>▌▌▌ WiFi ■</span>
+              </div>
+
+              <!-- WhatsApp header -->
+              <div class="wa-header">
+                <span class="wa-back">‹</span>
+                <div class="wa-avatar" style="background:#fff;padding:2px;">
+                  <img src="Logo UniVivir.png" alt="UniVivir" style="width:100%;height:100%;object-fit:contain;border-radius:50%;" />
+                </div>
+                <div class="wa-header-info">
+                  <div class="wa-header-name">UniVivir Seguros</div>
+                  <div class="wa-header-status">en línea</div>
+                </div>
+                <div class="wa-header-icons">
+                  <span>📹</span>
+                  <span>📞</span>
+                </div>
+              </div>
+
+              <!-- Chat body -->
+              <div class="wa-chat">
+                <div class="wa-date-chip">Hoy</div>
+
+                <div class="wa-bubble">
+                  <div class="wa-bubble-sender">UniVivir Seguros</div>
+                  <div class="wa-bubble-text">¡Hola! 👋
+
+Ahora con <b>UniVivir</b> cuentas con <b>Asistencia Salud Plus</b>, la cual al solo chatear esta línea podrás acceder fácilmente a:
+
+🩺 Telemedicina
+🏠 Médico a Domicilio
+🚑 Traslado Médico
+💊 Coordinación de Medicamentos
+✅ ¡Y mucho más!
+
+Adjuntamos link para que conozcas todos tus nuevos beneficios 👇</div>
+                  <a href="https://www.univivir.com.pa/" target="_blank" rel="noopener" class="wa-link-card" style="display:block;text-decoration:none;color:inherit;">
+                    <div class="wa-link-thumb">🩺</div>
+                    <div class="wa-link-body">
+                      <div class="wa-link-domain">univivir.com.pa</div>
+                      <div class="wa-link-title">UniVivir Seguros — Conoce tu Asistencia Salud Plus</div>
+                    </div>
+                  </a>
+                  <div class="wa-bubble-meta">
+                    <span class="wa-time">10:42 a.m.</span>
+                    <span class="wa-ticks">✓✓</span>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Bottom input bar -->
+              <div class="wa-bottom-bar">
+                <span class="wa-emoji-btn">🙂</span>
+                <div class="wa-input-fake">Escribe un mensaje</div>
+                <span class="wa-attach-btn">📎</span>
+                <div class="wa-mic-btn">🎤</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ POR QUÉ INTELASIST ============ -->
+  <section id="por-que">
+    <div class="container fade-in">
+      <div class="section-label">07 · Por qué IntelAsist</div>
+      <h2 class="section-title">El socio correcto<br/>para crecer con tu producto.</h2>
+      <p class="section-sub">
+        Trabajar con IntelAsist no es solo contratar un servicio —
+        es sumar un aliado comprometido con el éxito del producto dentro de UniVivir.
+      </p>
+
+      <div class="porq-grid">
+        <div class="porq-card">
+          <span class="porq-icon">🔐</span>
+          <h3>Exclusividad</h3>
+          <p>Tu producto de asistencia en salud no se lo ofrecemos a tu competencia. UniVivir tendrá diferenciación real y protegida en el mercado.</p>
+        </div>
+        <div class="porq-card">
+          <span class="porq-icon">⭐</span>
+          <h3>Experiencia</h3>
+          <p><strong style="color:var(--white);">15+ años</strong> de experiencia en el mercado panameño operando asistencias con médicos certificados, protocolos probados y una red de profesionales sólida y confiable.</p>
+        </div>
+        <div class="porq-card">
+          <span class="porq-icon">📣</span>
+          <h3>Promoción Activa</h3>
+          <p>Comunicación proactiva a los asegurados incluida sin costo. Garantizamos que el beneficio sea visible y usado desde el primer día.</p>
+        </div>
+        <div class="porq-card">
+          <span class="porq-icon">💻</span>
+          <h3>Tecnología Accesible</h3>
+          <p>Plataforma multicanal disponible desde cualquier dispositivo, sin descargas ni instalaciones. El asegurado accede en segundos.</p>
+        </div>
+        <div class="porq-card">
+          <span class="porq-icon">🕐</span>
+          <h3>Disponibilidad 24/7</h3>
+          <p>Médicos disponibles las 24 horas, los 365 días del año. Sin importar la hora o el lugar, el asegurado siempre tiene respuesta.</p>
+        </div>
+        <div class="porq-card">
+          <span class="porq-icon">💰</span>
+          <h3>Costo-Eficiencia</h3>
+          <p>Tarifas competitivas con el mayor valor agregado del mercado. Desde B/. 0.85 por asegurado al mes, con cobertura ilimitada.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACTO ============ -->
+  <section id="contacto">
+    <div class="container fade-in">
+      <div class="section-label">Próximo Paso</div>
+      <h2 class="section-title">¿Listo para activar<br/>IntelAsist Salud?</h2>
+      <p class="section-sub" style="margin: 0 auto; text-align:center;">
+        Contáctenos para coordinar la activación del servicio y revisar los detalles operativos.
+      </p>
+
+      <div class="li-card">
+        <div class="li-banner">
+          <img src="Logo Intel Asist - blanco gris.png" alt="IntelAsist" class="li-banner-logo-img" />
+        </div>
+        <div class="li-avatar-wrap">
+          <img src="Profile John.jpg" alt="John Taylor" class="li-avatar" />
+          <div class="li-online"></div>
+        </div>
+        <div class="li-body">
+          <div class="li-name">John Taylor Porras</div>
+          <div class="li-headline">Gerente General — Intel Asistencia, S.A.</div>
+          <div class="li-company">Intel Asistencia, S.A. · Panamá</div>
+          <div class="li-location">📍 Ciudad de Panamá, República de Panamá</div>
+          <hr class="li-divider" />
+          <div class="li-contact-list">
+            <div class="li-contact-item">
+              <div class="li-contact-icon">📧</div>
+              <a href="mailto:jtaylor@intelasist.com">jtaylor@intelasist.com</a>
+            </div>
+            <div class="li-contact-item">
+              <div class="li-contact-icon">📱</div>
+              <a href="tel:+50761122773">Tel. 6112-2773</a>
+            </div>
+            <div class="li-contact-item">
+              <div class="li-contact-icon">🌐</div>
+              <a href="https://intelasist.com" target="_blank" rel="noopener">intelasist.com</a>
+            </div>
+          </div>
+          <div class="li-actions">
+            <a href="https://wa.me/50761122773" target="_blank" rel="noopener" class="li-btn-primary">Enviar mensaje</a>
+            <a href="tel:+50761122773" class="li-btn-secondary">Llamar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <p>
+      <strong>IntelAsist Salud</strong> · Telemedicina Inteligente · Panamá<br/>
+      Intel Asistencia, S.A. · RUC: 155693088-2-2024 · Panamá, República de Panamá<br/>
+      Material Informativo Confidencial — 2026
+    </p>
+  </footer>
+
+  <!-- ============ SCRIPTS ============ -->
+  <script>
+    // ---- Password gate ----
+    var PASS = 'Univivir2026';
+
+    var acceptBox = document.getElementById('gate-accept');
+    var gateBtn   = document.getElementById('gate-btn');
+    var gateInput = document.getElementById('gate-input');
+    var gateError = document.getElementById('gate-error');
+
+    acceptBox.addEventListener('change', function() {
+      gateBtn.disabled = !this.checked;
+    });
+
+    gateInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !gateBtn.disabled) checkGate();
+    });
+
+    function checkGate() {
+      var val = gateInput.value.trim();
+      if (val === PASS) {
+        document.getElementById('gate').style.display = 'none';
+        document.body.classList.remove('gate-open');
+      } else {
+        gateInput.classList.add('error');
+        gateError.style.display = 'block';
+        setTimeout(function() {
+          gateInput.classList.remove('error');
+          gateError.style.display = 'none';
+        }, 2500);
+      }
+    }
+
+    function toggleTerms() {
+      var box    = document.getElementById('terms-box');
+      var toggle = document.getElementById('terms-toggle');
+      var open   = box.style.display === 'block';
+      box.style.display = open ? 'none' : 'block';
+      toggle.textContent = (open ? '►' : '▼') + ' Ver términos de confidencialidad';
+    }
+
+    // ---- Hamburger menu ----
+    function toggleMenu() {
+      var menu = document.getElementById('nav-mobile');
+      var btn  = document.getElementById('nav-hamburger');
+      var open = menu.classList.toggle('open');
+      btn.classList.toggle('open', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+
+    function closeMenu() {
+      document.getElementById('nav-mobile').classList.remove('open');
+      document.getElementById('nav-hamburger').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // Close menu on outside click
+    document.addEventListener('click', function(e) {
+      var menu = document.getElementById('nav-mobile');
+      var btn  = document.getElementById('nav-hamburger');
+      if (menu.classList.contains('open') && !menu.contains(e.target) && !btn.contains(e.target)) {
+        closeMenu();
+      }
+    });
+
+    // ---- Scroll fade-in ----
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
+  </script>
+
+</body>
+</html>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>IntelAsist Salud — Telemedicina Inteligente · Panamá</title>
